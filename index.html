@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CySEC - Zahtjev za povrat sredstava</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Times New Roman', serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            padding: 20px;
+            color: #333;
+            line-height: 1.5;
+        }
+        
+        .form-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            border: 1px solid #ddd;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #1a3e6f;
+            padding-bottom: 20px;
+        }
+        
+        .cysec-logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #1a3e6f;
+            margin-bottom: 10px;
+        }
+        
+        .form-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin: 15px 0;
+            color: #1a3e6f;
+        }
+        
+        .section {
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .section-title {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #1a3e6f;
+            background-color: #f0f4f8;
+            padding: 8px 10px;
+            border-left: 4px solid #1a3e6f;
+        }
+        
+        .field-group {
+            margin-bottom: 15px;
+        }
+        
+        .field-label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        
+        .input-field {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            font-size: 14px;
+            background: white;
+            border-radius: 4px;
+        }
+        
+        .input-field:focus {
+            outline: none;
+            border: 1px solid #1a3e6f;
+            box-shadow: 0 0 5px rgba(26, 62, 111, 0.3);
+        }
+        
+        .textarea-field {
+            width: 100%;
+            height: 120px;
+            padding: 8px;
+            border: 1px solid #ccc;
+            font-size: 14px;
+            resize: vertical;
+            border-radius: 4px;
+        }
+        
+        .checkbox-group {
+            margin: 10px 0;
+        }
+        
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+            cursor: pointer;
+        }
+        
+        .checkbox-input {
+            margin-right: 10px;
+            transform: scale(1.2);
+        }
+        
+        .declaration {
+            background-color: #f9f9f9;
+            padding: 15px;
+            border: 1px solid #ddd;
+            margin: 20px 0;
+            font-size: 14px;
+        }
+        
+        .signature-area {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+        }
+        
+        .signature-line {
+            width: 300px;
+            border-bottom: 1px solid #333;
+            margin: 20px 0 5px;
+            height: 30px;
+        }
+        
+        .footer {
+            margin-top: 30px;
+            font-size: 12px;
+            color: #666;
+            text-align: center;
+        }
+        
+        .instructions {
+            background-color: #f0f4f8;
+            padding: 15px;
+            border-left: 4px solid #1a3e6f;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+        
+        .required::after {
+            content: " *";
+            color: #e74c3c;
+        }
+        
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .print-button, .save-button, .download-button, .email-button {
+            padding: 10px 20px;
+            background-color: #1a3e6f;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            min-width: 160px;
+        }
+        
+        .print-button:hover, .save-button:hover, .download-button:hover, .email-button:hover {
+            background-color: #0f2a4d;
+        }
+        
+        .email-button {
+            background-color: #2e7d32;
+        }
+        
+        .email-button:hover {
+            background-color: #1b5e20;
+        }
+        
+        .cysec-info {
+            margin-top: 15px;
+            font-size: 11px;
+            line-height: 1.4;
+            color: #555;
+            text-align: left;
+            border-top: 1px solid #eee;
+            padding-top: 10px;
+        }
+        
+        .transaction-example {
+            background-color: #f9f9f9;
+            padding: 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            margin-top: 5px;
+            border-left: 3px solid #1a3e6f;
+        }
+        
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+            
+            .form-container {
+                box-shadow: none;
+                border: none;
+                padding: 20px;
+            }
+            
+            .action-buttons {
+                display: none;
+            }
+            
+            .input-field, .textarea-field {
+                border: 1px solid #000 !important;
+                background: transparent !important;
+            }
+        }
+        
+        @media (max-width: 600px) {
+            .action-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .print-button, .save-button, .download-button, .email-button {
+                width: 100%;
+                max-width: 250px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <div class="header">
+            <div class="cysec-logo">CYPRUS SECURITIES AND EXCHANGE COMMISSION</div>
+            <div class="form-title">ZAHTJEV ZA POVRAT SREDSTAVA / ZAHTJEV ZA POMOC U POVRATU SREDSTAVA</div>
+            <div>Ref: CySEC/CFI/CLAIM-FORM/2023</div>
+        </div>
+        
+        <div class="instructions">
+            <p><strong>Upute za popunjavanje:</strong> Molimo vas da ispunite obrazac što je moguće potpunije. Uz zahtjev priložite kopije dokaznih dokumenata (izvode, snimke transakcija, prepiske itd.). Podaci će se koristiti isključivo za razmatranje zahtjeva u skladu s Uredbom (EU) 2016/679 (GDPR).</p>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">1. PODACI O PODNOSITELJU ZAHTJEVA</div>
+            
+            <div class="field-group">
+                <label class="field-label required">Prezime, ime:</label>
+                <input type="text" class="input-field" placeholder="Unesite prezime i ime">
+            </div>
+            
+            <div class="field-group">
+                <label class="field-label">Druga imena / pseudonimi (ako postoje):</label>
+                <input type="text" class="input-field" placeholder="Unesite druga imena ili pseudonime">
+            </div>
+            
+            <div class="field-group">
+                <label class="field-label required">Datum rođenja (DD.MM.GGGG.):</label>
+                <input type="text" class="input-field" placeholder="dd.mm.gggg">
+            </div>
+            
+            <div class="field-group">
+                <label class="field-label required">Državljanstvo:</label>
+                <input type="text" class="input-field" placeholder="Unesite državljanstvo">
+            </div>
+            
+            <div class="field-group">
+                <label class="field-label required">Dokument za identifikaciju (vrsta, broj, država izdavanja):</label>
+                <input type="text" class="input-field" placeholder="npr. Osobna iskaznica, broj, država">
+            </div>
+            
+            <div class="field-group">
+                <label class="field-label required">Adresa prebivališta (država, grad, ulica, poštanski broj):</label>
+                <textarea class="textarea-field" placeholder="Unesite kompletnu adresu"></textarea>
+            </div>
+            
+            <div class="field-group">
+                <label class="field-label required">E-mail adresa:</label>
+                <input type="email" class="input-field" placeholder="primjer@email.com" id="client-email">
+            </div>
+            
+            <div class="field-group">
+                <label class="field-label required">Mobilni telefon (s pozivnim brojem države):</label>
+                <input type="tel" class="input-field" placeholder="npr. +385 9X XXX XXX">
+            </div>
+            
+            <div class="field-group">
+                <label class="field-label">Alternativni kontakt (telefon ili e-mail):</label>
+                <input type="text" class="input-field" placeholder="Unesite alternativni kontakt">
+            </div>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">2. INFORMACIJE O GUBITKU / INCIDENTU</div>
+            
+            <div class="field-group">
+                <label class="field-label required">Datum(i) incidenta:</label>
+                <input type="text" class="input-field" placeholder="Unesite datum(e) incidenta">
+            </div>
+            
+            <div class="field-group">
+                <label class="field-label required">Nadležnost / mjesto događaja (država, grad):</label>
+                <input type="text" class="input-field" placeholder="Unesite mjesto incidenta">
+            </div>
+            
+            <div class="field-group">
+                <label class="field-label required">Naziv prevarantske organizacije / platforme:</label>
+                <input type="text" class="input-field" placeholder="Unesite naziv organizacije ili platforme">
+            </div>
+            
+            <div class="field-group">
+                <label class="field-label required">Opis incidenta (ukratko):</label>
+                <textarea class="textarea-field" placeholder="Opišite okolnosti pod kojima se incident dogodio, uključujući način kontakta s prevarantima, njihova obećanja i metode koje su koristili."></textarea>
+            </div>
+            
+            <div class="field-group">
+                <label class="field-label required">Ukupni iznos izgubljenih sredstava:</label>
+                <input type="text" class="input-field" placeholder="navedite iznos i valutu (npr. 5000 EUR)">
+            </div>
+            
+            <div class="field-group">
+                <label class="field-label required">Broj i vrsta transakcija:</label>
+                <textarea class="textarea-field" placeholder="Unesite sve transakcije, po jednu u svakom redu. Primjer: 15.01.2023 - 1000 EUR - bankovni transfer - IBAN: HR123456789 &#10;20.01.2023 - 500 EUR - kripto transfer - adresa: 1A2b3C4d..." id="transactions"></textarea>
+                <div class="transaction-example">
+                    <strong>Primjer formata:</strong><br>
+                    DD.MM.GGGG - IZNOS VALUTA - NAČIN PLAĆANJA - DODATNE INFORMACIJE<br>
+                    15.01.2023 - 1000 EUR - bankovni transfer - IBAN: HR123456789<br>
+                    20.01.2023 - 500 EUR - kripto transfer - adresa: 1A2b3C4d...
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">3. PODACI O PLAĆANJU / RAČUNU</div>
+            
+            <div class="field-group">
+                <label class="field-label">Račun/kartica pošiljatelja (djelomično, zbog sigurnosti - posljednje 4 znamenke):</label>
+                <input type="text" class="input-field" placeholder="**** ____">
+            </div>
+            
+            <div class="field-group">
+                <label class="field-label">IBAN / SWIFT (ako je primjenjivo):</label>
+                <input type="text" class="input-field" placeholder="Unesite IBAN ili SWIFT">
+            </div>
+            
+            <div class="field-group">
+                <label class="field-label">Kripto adresa(e) za slanje/primanje (ako je primjenjivo):</label>
+                <textarea class="textarea-field" placeholder="Unesite kripto adrese"></textarea>
+            </div>
+            
+            <div class="field-group">
+                <label class="field-label">Elektronički novčanici / računi (e-mail/korisničko ime na platformama):</label>
+                <textarea class="textarea-field" placeholder="Unesite podatke o elektroničkim novčanicima"></textarea>
+            </div>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">4. DOKAZI (priložite datoteke)</div>
+            
+            <div class="checkbox-group">
+                <label class="checkbox-label">
+                    <input type="checkbox" class="checkbox-input" name="screenshots">
+                    Snimke razgovora s prevarantima
+                </label>
+                <label class="checkbox-label">
+                    <input type="checkbox" class="checkbox-input" name="bank_statements">
+                    Bankovni izvodi / izvod s kartice
+                </label>
+                <label class="checkbox-label">
+                    <input type="checkbox" class="checkbox-input" name="crypto_transactions">
+                    Snimke/zapisi transakcija u kriptovalutama
+                </label>
+                <label class="checkbox-label">
+                    <input type="checkbox" class="checkbox-input" name="other_documents">
+                    Ostali dokumenti (nalozi za plaćanje, potvrde)
+                </label>
+            </div>
+            
+            <div class="field-group">
+                <label class="field-label">Komentar o priloženim materijalima:</label>
+                <textarea class="textarea-field" placeholder="Opišite priložene materijale"></textarea>
+            </div>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">5. INFORMACIJE O PODUZETIM RADNJAMA</div>
+            
+            <div class="checkbox-group">
+                <label class="checkbox-label">
+                    <input type="checkbox" class="checkbox-input" name="reported_to_bank">
+                    Jeste li prijavili banci / sustavu plaćanja?
+                </label>
+            </div>
+            
+            <div class="field-group">
+                <label class="field-label">Ako da - naziv banke/sustava:</label>
+                <input type="text" class="input-field" placeholder="Unesite naziv banke ili sustava">
+            </div>
+            
+            <div class="field-group">
+                <label class="field-label">Datum prijave:</label>
+                <input type="text" class="input-field" placeholder="dd.mm.gggg">
+            </div>
+            
+            <div class="checkbox-group">
+                <label class="checkbox-label">
+                    <input type="checkbox" class="checkbox-input" name="reported_to_police">
+                    Jeste li prijavili tijelima reda i zakona?
+                </label>
+            </div>
+            
+            <div class="field-group">
+                <label class="field-label">Ako da - tijelo, broj predmeta, kontakt osoba:</label>
+                <textarea class="textarea-field" placeholder="Unesite podatke o prijavi"></textarea>
+            </div>
+            
+            <div class="checkbox-group">
+                <label class="checkbox-label">
+                    <input type="checkbox" class="checkbox-input" name="received_responses">
+                    Jeste li dobili odgovore / odluke o prijavama?
+                </label>
+            </div>
+            
+            <div class="field-group">
+                <label class="field-label">Ukratko:</label>
+                <textarea class="textarea-field" placeholder="Opišite odgovore koje ste dobili"></textarea>
+            </div>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">6. IZJAVA O SAGLASNOSTI I OBRAĐI PODATAKA</div>
+            
+            <div class="declaration">
+                <p>Ja, potpisani/na, potvrđujem točnost navedenih podataka. Dajem saglasnost za prikupljanje, obradu i prijenos mojih osobnih podataka u okviru razmatranja ovog zahtjeva u svrhu utvrđivanja okolnosti i moguće pomoći u povratu sredstava. Svjestan/na sam da se navedeni podaci mogu prenijeti odgovarajućim državnim i/ili financijskim institucijama po potrebi.</p>
+            </div>
+            
+            <div class="field-group">
+                <label class="field-label required">Ime i prezime podnositelja zahtjeva (tiskanim slovima):</label>
+                <input type="text" class="input-field" placeholder="Unesite ime i prezime">
+            </div>
+            
+            <div class="field-group">
+                <label class="field-label required">Datum:</label>
+                <input type="text" class="input-field" placeholder="dd.mm.gggg">
+            </div>
+            
+            <div class="signature-area">
+                <div class="field-label">Potpis:</div>
+                <div class="signature-line"></div>
+                <div style="font-size: 12px; color: #666;">(potpis podnositelja zahtjeva)</div>
+            </div>
+        </div>
+        
+        <div class="action-buttons">
+            <button class="print-button" onclick="window.print()">Ispis formulira</button>
+            <button class="save-button" onclick="saveFormData()">Spremi podatke</button>
+            <button class="download-button" onclick="downloadFormData()">Preuzmi kao datoteku</button>
+            <button class="email-button" onclick="sendFormData()">Pošalji e-poštom</button>
+        </div>
+        
+        <div class="footer">
+            <p><strong>Dodatne informacije:</strong></p>
+            <p>Poštanska adresa za korespondenciju: Cyprus Securities and Exchange Commission, 19 Diagorou Street, 1097 Nicosia, Cyprus / P.O.Box 24996, 1306 Nicosia, Cyprus</p>
+            <p>Zahtjevi za datoteke: formati PDF/JPEG/PNG, maksimalno 10 MB po datoteci.</p>
+            <p>Rokovi za razmatranje (okvirno): 30 radnih dana</p>
+            
+            <div class="cysec-info">
+                <p><strong>O CySEC-u:</strong> Ciparska komisija za vrijednosne papire i burzu (CySEC) je nezavisno regulatorno tijelo odgovorno za nadzor investicijskih usluga, tržišta i ponašanja na području Cipra. CySEC djeluje u skladu s ciparskim zakonodavstvom i EU regulativom, osiguravajući zaštitu ulagača i integritet financijskog tržišta. CySEC je ovlaštena nadzirati sve financijske institucije koje pružaju usluge na području Cipra i provodi istrage u slučajevima financijskih prijevara i zloupotreba.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Funkcija za spremanje podataka forme u localStorage
+        function saveFormData() {
+            const formData = {};
+            
+            // Prikupljanje podataka iz tekstualnih polja
+            const textInputs = document.querySelectorAll('input[type="text"], input[type="email"], input[type="tel"], textarea');
+            textInputs.forEach(input => {
+                formData[input.placeholder || input.name] = input.value;
+            });
+            
+            // Prikupljanje podataka iz checkboxova
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            checkboxes.forEach(checkbox => {
+                formData[checkbox.name] = checkbox.checked;
+            });
+            
+            // Spremanje u localStorage
+            localStorage.setItem('cysecFormData', JSON.stringify(formData));
+            alert('Podaci su uspješno spremljeni. Možete zatvoriti stranicu i kasnije nastaviti s popunjavanjem.');
+        }
+        
+        // Funkcija za preuzimanje podataka kao datoteke
+        function downloadFormData() {
+            const formData = {};
+            
+            // Prikupljanje podataka iz tekstualnih polja
+            const textInputs = document.querySelectorAll('input[type="text"], input[type="email"], input[type="tel"], textarea');
+            textInputs.forEach(input => {
+                formData[input.placeholder || input.name] = input.value;
+            });
+            
+            // Prikupljanje podataka iz checkboxova
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            checkboxes.forEach(checkbox => {
+                formData[checkbox.name] = checkbox.checked ? 'DA' : 'NE';
+            });
+            
+            // Stvaranje teksta za preuzimanje
+            let textContent = 'CYPRUS SECURITIES AND EXCHANGE COMMISSION\n';
+            textContent += 'ZAHTJEV ZA POVRAT SREDSTAVA\n\n';
+            textContent += 'Datum generiranja: ' + new Date().toLocaleString('hr-HR') + '\n\n';
+            
+            // Dodavanje svih podataka u tekstualni format
+            for (const key in formData) {
+                if (formData[key]) {
+                    textContent += key + ': ' + formData[key] + '\n\n';
+                }
+            }
+            
+            // Stvaranje Blob objekta i preuzimanje
+            const blob = new Blob([textContent], { type: 'text/plain;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'CySEC_zahtjev_' + new Date().toISOString().slice(0, 10) + '.txt';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            alert('Podaci su preuzeti kao datoteka. Spremite je na svoj uređaj za buduću upotrebu.');
+        }
+        
+        // Funkcija za slanje podataka putem e-pošte
+        function sendFormData() {
+            const clientEmail = document.getElementById('client-email').value;
+            
+            if (!clientEmail) {
+                alert('Molimo unesite svoju e-mail adresu u odjeljku 1 kako bismo mogli poslati potvrdu.');
+                return;
+            }
+            
+            const formData = {};
+            
+            // Prikupljanje podataka iz tekstualnih polja
+            const textInputs = document.querySelectorAll('input[type="text"], input[type="email"], input[type="tel"], textarea');
+            textInputs.forEach(input => {
+                formData[input.placeholder || input.name] = input.value;
+            });
+            
+            // Prikupljanje podataka iz checkboxova
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            checkboxes.forEach(checkbox => {
+                formData[checkbox.name] = checkbox.checked ? 'DA' : 'NE';
+            });
+            
+            // Stvaranje sadržaja e-pošte
+            let emailContent = 'Poštovani,\n\n';
+            emailContent += 'Zahvaljujemo Vam na podnošenju zahtjeva za povrat sredstava CySEC-u.\n\n';
+            emailContent += 'Vaš zahtjev je zaprimljen i bit će pregledan u roku od 30 radnih dana.\n\n';
+            emailContent += 'Detalji vašeg zahtjeva:\n\n';
+            
+            // Dodavanje svih podataka u e-poštu
+            for (const key in formData) {
+                if (formData[key]) {
+                    emailContent += key + ': ' + formData[key] + '\n\n';
+                }
+            }
+            
+            emailContent += '\n\nS poštovanjem,\nCySEC Claims Department\n';
+            emailContent += 'Cyprus Securities and Exchange Commission\n';
+            emailContent += '19 Diagorou Street, 1097 Nicosia, Cyprus\n\n';
+            emailContent += 'NAPOMENA: Ovo je automatska potvrda. Molimo ne odgovarajte na ovu poruku.';
+            
+            // Stvaranje mailto linka
+            const subject = 'Potvrda o prijavi zahtjeva za povrat sredstava - CySEC';
+            const mailtoLink = `mailto:${clientEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(emailContent)}`;
+            
+            // Otvaranje klijenta e-pošte
+            window.location.href = mailtoLink;
+            
+            alert('Otvaramo vaš klijent e-pošte s predloškom poruke. Molimo potvrdite slanje poruke.');
+        }
+        
+        // Funkcija za učitavanje prethodno spremljenih podataka
+        function loadFormData() {
+            const savedData = localStorage.getItem('cysecFormData');
+            if (savedData) {
+                const formData = JSON.parse(savedData);
+                
+                // Učitavanje tekstualnih polja
+                const textInputs = document.querySelectorAll('input[type="text"], input[type="email"], input[type="tel"], textarea');
+                textInputs.forEach(input => {
+                    const key = input.placeholder || input.name;
+                    if (formData[key] !== undefined) {
+                        input.value = formData[key];
+                    }
+                });
+                
+                // Učitavanje checkboxova
+                const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+                checkboxes.forEach(checkbox => {
+                    if (formData[checkbox.name] !== undefined) {
+                        checkbox.checked = formData[checkbox.name];
+                    }
+                });
+            }
+        }
+        
+        // Funkcija za tiho automatsko spremanje (bez alerta)
+        function autoSaveFormData() {
+            const formData = {};
+            
+            // Prikupljanje podataka iz tekstualnih polja
+            const textInputs = document.querySelectorAll('input[type="text"], input[type="email"], input[type="tel"], textarea');
+            textInputs.forEach(input => {
+                formData[input.placeholder || input.name] = input.value;
+            });
+            
+            // Prikupljanje podataka iz checkboxova
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            checkboxes.forEach(checkbox => {
+                formData[checkbox.name] = checkbox.checked;
+            });
+            
+            // Spremanje u localStorage
+            localStorage.setItem('cysecFormData', JSON.stringify(formData));
+        }
+        
+        // Učitavanje podataka prilikom učitavanja stranice
+        document.addEventListener('DOMContentLoaded', loadFormData);
+        
+        // Automatsko spremanje prilikom izmjene podataka (bez alerta)
+        let autoSaveTimeout;
+        document.addEventListener('input', function() {
+            // Očistimo prethodni timeout
+            clearTimeout(autoSaveTimeout);
+            // Postavimo novi timeout za automatsko spremanje nakon 1 sekunde
+            autoSaveTimeout = setTimeout(autoSaveFormData, 1000);
+        });
+    </script>
+</body>
+</html>
